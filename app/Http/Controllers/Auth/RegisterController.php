@@ -7,6 +7,7 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -68,5 +69,36 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+    public function new(Request $request)
+    {
+        $data = $request->json()->all();
+        //$validator = $this->validate($request);
+        try {
+            $user = User::where('email', $data['email'])->get();
+            if ($user) {
+                throw new \Exception('User already exists');
+            }
+            $user = $this->create($data);
+            if ($user) {
+                $user = $user->toArray();
+                return response()->json([
+                    'success' => true,
+                    'error' => false,
+                    'user' => [
+                        'id' => $user['id'],
+                        'name' => $user['name'],
+                        'email' => $user['email'],
+                    ],
+                ]);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => $e->getMessage()
+            ]);
+        }
+        
     }
 }
