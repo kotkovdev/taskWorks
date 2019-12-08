@@ -22,10 +22,9 @@ use Illuminate\Http\Request;
  */
 Route::post('/login', 'Auth\LoginController@login');
 
-Route::post('/user/new', 'Auth\RegisterController@new');
-
-//Route::get('/user/all', 'UserController@getAllUsers');
-
-//Route::get('/user/{id}', 'UserController@getUserById');
-
-Route::middleware('auth:api')->get('/user/all', 'UserController@getAllUsers');
+Route::group(['middleware' => 'auth:api'], function() {
+    Route::post('/user/new', 'Auth\RegisterController@new');
+    
+    Route::get('/user/all', 'UserController@getAllUsers');
+    Route::get('/user/{id}', 'UserController@getUserById');
+});
