@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use illuminate\Http\Request;
 
 use App\User;
@@ -42,12 +42,6 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function generateToken($email)
-    {
-        $hash = Hash::make(time() . $email);
-        return $hash;
-    }
-
     /**
      * Custom user authorization
      */
@@ -55,10 +49,12 @@ class LoginController extends Controller
     {
         $data = $request->json()->all();
         if (Auth::attempt(['email' => $data['email'], 'password' => $data['password']])) {
-            $user = User::where('email', $data['email'])->first()->toArray();
+            $user = User::where('email', $data['email'])->first();
             Auth::loginUsingId($user['id']);
-            $token = $this->generateToken($data['email']);
+            $token = Str::random(80);
             session(['token' => $token]);
+            $user->api_token = $token;
+            $user->save();
             return response()->json([
                 'success' => true,
                 'errors' => false,

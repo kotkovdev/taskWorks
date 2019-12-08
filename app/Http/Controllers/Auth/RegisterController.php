@@ -74,10 +74,9 @@ class RegisterController extends Controller
     public function new(Request $request)
     {
         $data = $request->json()->all();
-        //$validator = $this->validate($request);
         try {
             $user = User::where('email', $data['email'])->get();
-            if ($user) {
+            if ($user->count() > 0) {
                 throw new \Exception('User already exists');
             }
             $user = $this->create($data);

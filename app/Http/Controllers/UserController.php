@@ -23,4 +23,12 @@ class UserController extends Controller
             'users' => $users
         ]);
     }
+
+    function login()
+    {
+        return response()->json([
+            'error' => true,
+            'message' => 'You must be logged in'
+        ]);
+    }
 }

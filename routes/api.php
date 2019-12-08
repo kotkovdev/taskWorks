@@ -13,9 +13,9 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+/*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
-});
+});*/
 
 /**
  * Users
@@ -24,7 +24,8 @@ Route::post('/login', 'Auth\LoginController@login');
 
 Route::post('/user/new', 'Auth\RegisterController@new');
 
-Route::get('/user/all', 'UserController@getAllUsers');
+//Route::get('/user/all', 'UserController@getAllUsers');
 
-Route::get('/user/{id}', 'UserController@getUserById');
+//Route::get('/user/{id}', 'UserController@getUserById');
 
+Route::middleware('auth:api')->get('/user/all', 'UserController@getAllUsers');
