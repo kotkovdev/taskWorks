@@ -21,10 +21,16 @@ use Illuminate\Http\Request;
  * Users
  */
 Route::post('/login', 'Auth\LoginController@login');
+Route::post('/user/new', 'Auth\RegisterController@new');
 
 Route::group(['middleware' => 'auth:api'], function() {
-    Route::post('/user/new', 'Auth\RegisterController@new');
-    
     Route::get('/user/all', 'UserController@getAllUsers');
     Route::get('/user/{id}', 'UserController@getUserById');
+
+    /**
+     * Reports
+     */
+    Route::post('/report/new', 'ReportController@new');
+    Route::post('/report/all', 'ReportController@getAll');
+
 });
