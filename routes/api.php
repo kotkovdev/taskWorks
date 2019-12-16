@@ -32,5 +32,4 @@ Route::group(['middleware' => 'auth:api'], function() {
      */
     Route::post('/report/new', 'ReportController@new');
     Route::post('/report/all', 'ReportController@getAll');
-
 });

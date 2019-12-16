@@ -11,8 +11,12 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
-Route::get('/login', 'UserController@login')->name('login');
+
+Route::get('/login', 'Auth\LoginController@webLogin')->name('login');
+Route::post('/login', 'Auth\LoginController@webLogin');
+
+/**
+ * Send all rquests to angular app
+ */
+Route::get('/{any}', 'HomeController@index')->where('any', '.*')->middleware('auth');

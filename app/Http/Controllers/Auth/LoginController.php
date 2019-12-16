@@ -48,9 +48,9 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $data = $request->json()->all();
-        if (Auth::attempt(['email' => $data['email'], 'password' => $data['password']])) {
+        if (Auth::attempt(['email' => $data['email'], 'password' => $data['password']], true)) {
             $user = User::where('email', $data['email'])->first();
-            Auth::loginUsingId($user['id']);
+            //Auth::login($user, true);
             $token = Str::random(80);
             session(['token' => $token]);
             $user->api_token = $token;
@@ -58,8 +58,27 @@ class LoginController extends Controller
             return response()->json([
                 'success' => true,
                 'errors' => false,
-                'token' => $token
+                'api_token' => $token
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'errors' => 'Unknow user',
             ]);
         }
+    }
+
+    public function webLogin(Request $request)
+    {
+        if ($request->input('email') && $request->input('password')) {
+            $auth = Auth::attempt([
+                'email' => $request->input('email'),
+                'password' => $request->input('password')
+            ], true);
+            if ($auth) {
+                return response()->redirectTo('/');
+            }
+        }
+        return view('login');
     }
 }
