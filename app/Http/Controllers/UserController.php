@@ -19,9 +19,7 @@ class UserController extends Controller
     function getAllUsers()
     {
         $users = User::all();
-        return response()->json([
-            'users' => $users
-        ]);
+        return response()->json($users);
     }
 
     function login()
