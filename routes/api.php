@@ -41,5 +41,6 @@ Route::group(['middleware' => 'auth:api'], function() {
     /**
      * Tasks
      */
+    Route::get('/task/all', 'TaskController@getAll');
     Route::post('/task/new', 'TaskController@create');
 });

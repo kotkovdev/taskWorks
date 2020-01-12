@@ -13,8 +13,8 @@ class TaskController extends Controller
     public function getAll()
     {
         try {
-            $projects = Project::order_by('id', 'desc')->get();
-            return ResponseHelper::success($projects->toArray());
+            $tasks = Task::orderBy('id', 'desc')->with(['owner', 'user', 'project', 'report'])->get();
+            return ResponseHelper::success($tasks->toArray());
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage());
         }
