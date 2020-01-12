@@ -31,6 +31,7 @@ Route::group(['middleware' => 'auth:api'], function() {
      * Reports
      */
     Route::post('/report/new', 'ReportController@new');
+    Route::post('/report/{id}', 'ReportController@update');
     Route::get('/report/all', 'ReportController@getAll');
     Route::get('/report/{id}', 'ReportController@getById');
 });

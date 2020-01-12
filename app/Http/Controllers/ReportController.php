@@ -38,4 +38,18 @@ class ReportController extends Controller
             return ResponseHelper::error($e->getMessage());
         }
     }
+
+    public function update(Request $request, $reportId)
+    {
+        try {
+            $report = Report::find($reportId);
+            $data = $request->json()->all();
+            $report->title = $data['title'];
+            $report->description = $data['description'];
+            $report->save();
+            return ResponseHelper::success($report->toArray());
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage());
+        }
+    }
 }
