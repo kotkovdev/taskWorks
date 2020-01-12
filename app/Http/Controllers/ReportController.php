@@ -28,4 +28,14 @@ class ReportController extends Controller
         $reports = Report::orderBy('id', 'desc')->get()->toArray();
         return ResponseHelper::success($reports);
     }
+
+    public function getById(Request $request, $reportId)
+    {
+        try {
+            $report = Report::find($reportId);
+            return ResponseHelper::success($report->toArray());
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage());
+        }
+    }
 }
