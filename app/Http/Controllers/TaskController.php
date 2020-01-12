@@ -20,6 +20,16 @@ class TaskController extends Controller
         }
     }
 
+    public function getById(Request $request, $taskId)
+    {
+        try {
+            $task = Task::where('id', '=', $taskId)->with(['owner', 'user', 'project', 'report'])->first();
+            return ResponseHelper::success($task->toArray());
+        } catch (\Exception $e) {
+            ResponseHelper::error($e->getMessage());
+        }
+    }
+
     public function create(Request $request)
     {
          try {
