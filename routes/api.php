@@ -34,4 +34,12 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::post('/report/{id}', 'ReportController@update');
     Route::get('/report/all', 'ReportController@getAll');
     Route::get('/report/{id}', 'ReportController@getById');
+    /**
+     * Projects
+     */
+    Route::get('/project/all', 'ProjectController@getAll');
+    /**
+     * Tasks
+     */
+    Route::post('/task/new', 'TaskController@create');
 });

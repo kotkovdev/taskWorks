@@ -22,6 +22,7 @@ class Tasks extends Migration
             $table->integer('completion')->nullable()->default(null);
             $table->string('branch')->nullable()->default(null);
             $table->bigInteger('owner_id');
+            $table->bigInteger('report_id');
             $table->bigInteger('user_id')->nullable()->default(null);
             $table->longText('description')->nullable()->default(null);
             $table->json('attachments')->nullable()->default(null);
