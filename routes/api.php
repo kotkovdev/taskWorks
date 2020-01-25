@@ -30,6 +30,7 @@ Route::group(['middleware' => 'auth:api'], function() {
     /**
      * Reports
      */
+    Route::get('/report/statistic', 'ReportController@statistic');
     Route::post('/report/new', 'ReportController@new');
     Route::post('/report/{id}', 'ReportController@update');
     Route::get('/report/all', 'ReportController@getAll');
