@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Helpers\ResponseHelper;
 use App\Message;
+use App\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,6 +19,10 @@ class MessagesController extends Controller
             $message->text = $data['message'];
             $message->task_id = $data['task_id'];
             $message->save();
+            $task = Task::find($data['task_id']);
+            $task->completion = $data['completion'];
+            $task->status_id = $data['status'];
+            $task->save();
             return ResponseHelper::success($this->getMessages($data['task_id'])->original);
 
         } catch (Exception $e) {
